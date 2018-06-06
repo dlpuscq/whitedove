@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.whitedove.mapper.TbItemMsgMapper" >
+  <resultMap id="BaseResultMap" type="com.whitedove.pojo.TbItemMsg" >
+    <id column="item_id" property="itemId" jdbcType="BIGINT" />
+    <result column="item_collection" property="itemCollection" jdbcType="VARCHAR" />
+    <result column="sales" property="sales" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    item_id, item_collection, sales
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.whitedove.pojo.TbItemMsgExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_item_msg
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_item_msg
+    where item_id = #{itemId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_item_msg
+    where item_id = #{itemId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.whitedove.pojo.TbItemMsgExample" >
+    delete from tb_item_msg
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.whitedove.pojo.TbItemMsg" >
+    insert into tb_item_msg (item_id, item_collection, sales
+      )
+    values (#{itemId,jdbcType=BIGINT}, #{itemCollection,jdbcType=VARCHAR}, #{sales,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.whitedove.pojo.TbItemMsg" >
+    insert into tb_item_msg
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="itemId != null" >
+        item_id,
+      </if>
+      <if test="itemCollection != null" >
+        item_collection,
+      </if>
+      <if test="sales != null" >
+        sales,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="itemId != null" >
+        #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="itemCollection != null" >
+        #{itemCollection,jdbcType=VARCHAR},
+      </if>
+      <if test="sales != null" >
+        #{sales,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.whitedove.pojo.TbItemMsgExample" resultType="java.lang.Integer" >
+    select count(*) from tb_item_msg
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_item_msg
+    <set >
+      <if test="record.itemId != null" >
+        item_id = #{record.itemId,jdbcType=BIGINT},
+      </if>
+      <if test="record.itemCollection != null" >
+        item_collection = #{record.itemCollection,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sales != null" >
+        sales = #{record.sales,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_item_msg
+    set item_id = #{record.itemId,jdbcType=BIGINT},
+      item_collection = #{record.itemCollection,jdbcType=VARCHAR},
+      sales = #{record.sales,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.whitedove.pojo.TbItemMsg" >
+    update tb_item_msg
+    <set >
+      <if test="itemCollection != null" >
+        item_collection = #{itemCollection,jdbcType=VARCHAR},
+      </if>
+      <if test="sales != null" >
+        sales = #{sales,jdbcType=BIGINT},
+      </if>
+    </set>
+    where item_id = #{itemId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.whitedove.pojo.TbItemMsg" >
+    update tb_item_msg
+    set item_collection = item_collection+1
+    where item_id = #{itemId,jdbcType=BIGINT}
+  </update>
+    <update id="addSalesByPrimaryKey" parameterType="com.whitedove.pojo.TbItemMsg" >
+    update tb_item_msg
+    set sales = sales +1
+    where item_id = #{itemId,jdbcType=BIGINT}
+  </update>
+  <update id="subByPrimaryKey" parameterType="com.whitedove.pojo.TbItemMsg" >
+    update tb_item_msg
+    set item_collection = item_collection-1
+    where item_id = #{itemId,jdbcType=BIGINT}
+  </update>
+</mapper>

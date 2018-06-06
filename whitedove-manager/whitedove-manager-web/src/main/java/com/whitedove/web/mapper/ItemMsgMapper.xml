@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.whitedove.web.mapper.ItemMsgMapper" >
+
+  <insert id="insert" parameterType="com.whitedove.web.pojo.CourseMsg">
+
+        insert into tb_item_msg(
+        item_id,
+        item_collection,
+        sales
+        )values
+        (
+        #{itemId},
+        #{itemCollection},
+        #{sales}
+        )
+    </insert>
+
+    <select id="getItemMsgList" parameterType="com.whitedove.web.pojo.CourseMsg" resultType="com.whitedove.web.pojo.CourseMsg">
+        SELECT
+            b.item_id itemId,
+            a.title itemName,
+            a.image image,
+            b.item_collection itemCollection,
+            b.sales sales
+        FROM
+            tb_item a,
+            tb_item_msg b
+        WHERE
+            a.id = b.item_id
+        <if test="itemName != null" >
+            and a.title like "%"#{itemName}"%"
+        </if>
+
+        <if test="cellectionId == 'correct'" >
+           order by  b.item_collection asc
+        </if>
+        <if test="cellectionId == 'fall'" >
+            order by  b.item_collection desc
+        </if>
+
+        <if test="salesId == 'correct'" >
+            order by  b.sales asc
+        </if>
+        <if test="salesId == 'fall'" >
+            order by  b.sales desc
+        </if>
+
+    </select>
+
+</mapper>

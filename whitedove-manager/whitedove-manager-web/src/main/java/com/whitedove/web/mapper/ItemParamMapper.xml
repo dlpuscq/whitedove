@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.whitedove.web.mapper.ItemParamMapper" >
+	
+	<select id="getItemParamList" resultType="com.whitedove.web.pojo.ItemParam">
+        SELECT
+            a.id id,
+            a.item_cat_id itemCatId,
+            b.name itemCatName,
+            c.name paramData,
+            a.created created,
+            a.updated updated
+        FROM
+            tb_item_param a
+            LEFT JOIN tb_item_cat b ON a.item_cat_id = b.id LEFT JOIN tb_item_cat c on
+            b.parent_id = c.id
+	</select>
+
+
+</mapper>

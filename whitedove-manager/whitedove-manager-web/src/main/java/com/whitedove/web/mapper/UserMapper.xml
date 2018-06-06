@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.whitedove.web.mapper.UserMapper" >
+
+    <select id="getUserList" parameterType="com.whitedove.pojo.TbUser" resultType="com.whitedove.pojo.TbUser">
+        SELECT
+            id ,
+            username,
+            phone,
+            email,
+            created,
+            updated,
+            headpic
+        FROM
+            tb_user
+        <where>
+            <if test="username != null">
+                username like "%"#{username}"%"
+            </if>
+        </where>
+    </select>
+
+</mapper>

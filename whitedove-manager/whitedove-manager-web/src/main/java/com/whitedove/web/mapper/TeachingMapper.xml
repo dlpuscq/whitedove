@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.whitedove.web.mapper.TeachingMapper" >
+
+    <insert id="insert" parameterType="com.whitedove.web.pojo.Teaching">
+        insert into tb_teaching(
+            id,
+            cat_id,
+            cat_name,
+            status,
+            teacher_id,
+            teacher_name
+        )values(
+            #{id},
+            #{catId},
+            #{catName},
+            #{status},
+            #{teacherId},
+            #{teacherName}
+        )
+    </insert>
+
+    <select id="getCatName" parameterType="com.whitedove.web.pojo.Teaching"  resultType="com.whitedove.web.pojo.Teaching">
+        select
+           name catName
+        from
+         tb_item_cat
+        where
+        id = #{catId}
+	</select>
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.whitedove.portal.mapper.CartItemMapper" >
+
+	<!--Array:forech中的collection属性类型是array,collection的值必须是:list,item的值可以随意,Dao接口中参数名字随意 -->
+	<select id="getCatItemList" resultType="com.whitedove.pojo.TbOrderItem">
+
+		SELECT
+			id itemId,
+			price price,
+			image itemPic,
+			title itemName
+		FROM
+			tb_item
+		where id in
+		<foreach collection="array" item="itemids" index="index"
+				 open="(" close=")" separator=",">
+			#{itemids}
+		</foreach>
+
+	</select>
+
+</mapper>

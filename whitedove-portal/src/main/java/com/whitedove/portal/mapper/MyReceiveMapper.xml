@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.whitedove.portal.mapper.MyReceiveMapper" >
+
+	<!--Array:forech中的collection属性类型是array,collection的值必须是:list,item的值可以随意,Dao接口中参数名字随意 -->
+	<select id="getMyReceive" parameterType="com.whitedove.pojo.TbUser" resultType="com.whitedove.portal.pojo.MyReceive">
+		SELECT
+			a.id itemId,
+			a.sell_point itemTitle,
+			a.image itemPic,
+			a.title itemName
+		FROM
+			tb_item a,
+			tb_collection b
+		WHERE
+			a.id = b.item_id
+		and
+			b.user_id = #{id,jdbcType=BIGINT}
+	</select>
+
+</mapper>

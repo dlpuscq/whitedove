@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.whitedove.portal.mapper.ItemMapper" >
+
+    <resultMap id="BaseResultMap" type="com.whitedove.portal.pojo.Item" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="sell_point" property="sellPoint" jdbcType="VARCHAR" />
+        <result column="price" property="price" jdbcType="BIGINT" />
+        <result column="name" property="categoryName" jdbcType="VARCHAR" />
+        <result column="image" property="image" jdbcType="VARCHAR" />
+        <result column="item_collection" property="itemCollection" jdbcType="VARCHAR" />
+        <result column="cid" property="cid" jdbcType="BIGINT" />
+		<result column="sales" property="sales" jdbcType="BIGINT" />
+        <result column="status" property="status" jdbcType="TINYINT" />
+    </resultMap>
+
+	<select id="getItemList"  parameterType="com.whitedove.portal.pojo.Item" resultMap="BaseResultMap">
+		SELECT
+			a.id,
+			a.title,
+			a.sell_point,
+			a.price,
+			a.image,
+			a.cid,
+			b.name,
+            c.sales
+		FROM
+			tb_item a
+		LEFT JOIN tb_item_cat b ON a.cid = b.id
+        LEFT JOIN tb_item_msg c ON a.id = c.item_id
+		where 1=1
+		<if test="cid !=null">
+			and a.cid = #{cid,jdbcType=BIGINT}
+		</if>
+	</select>
+
+	<select id="getItemById" parameterType="com.whitedove.portal.pojo.Item" resultMap="BaseResultMap">
+		SELECT
+            a.id,
+            a.title,
+            a.sell_point,
+            a.price,
+            a.image,
+            a.cid,
+            b.name,
+            c.sales
+		FROM
+		    tb_item a
+		LEFT JOIN tb_item_cat b ON a.cid = b.id
+		LEFT JOIN tb_item_msg c ON a.id = c.item_id
+		where 1=1
+            <if test="id !=null">
+                and a.id = #{id,jdbcType=BIGINT}
+            </if>
+	</select>
+	<select id="getItemNum" parameterType="java.lang.Long" resultType="java.lang.Long">
+		SELECT
+			COUNT( id )
+		FROM
+			tb_item
+		WHERE 1=1
+		<if test="_parameter !=null">
+			and cid = #{_parameter,jdbcType=BIGINT}
+		</if>
+	</select>
+
+	<select id="getItemRandom"  resultMap="BaseResultMap">
+        SELECT
+            a.id,
+			a.title,
+			a.sell_point,
+			a.price,
+			a.image,
+			a.cid
+        FROM
+            tb_item a
+        ORDER BY
+            rand( )
+            LIMIT 10
+	</select>
+
+    <select id="getItemHot"  resultMap="BaseResultMap">
+        SELECT
+            a.id,
+            a.title,
+            a.sell_point,
+            a.price,
+            a.image,
+            a.cid,
+            b.item_collection
+        FROM
+            tb_item a,
+            tb_item_msg b
+        WHERE
+            a.id = b.item_id
+            AND b.item_collection >= 10
+	</select>
+
+</mapper>

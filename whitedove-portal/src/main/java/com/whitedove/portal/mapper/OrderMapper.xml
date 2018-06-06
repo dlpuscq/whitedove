@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.whitedove.portal.mapper.OrderMapper" >
+
+    <resultMap id="BaseOrder" type="com.whitedove.portal.pojo.Order">
+            <result column="order_id" property="orderId" jdbcType="BIGINT" />
+            <result column="user_id" property="userId" jdbcType="BIGINT" />
+            <result column="username" property="username" jdbcType="VARCHAR" />
+            <result column="num" property="num" jdbcType="INTEGER" />
+            <result column="total_fee" property="totalFee" jdbcType="BIGINT" />
+            <result column="created" property="created" jdbcType="TIMESTAMP" />
+            <result column="updated" property="updated" jdbcType="TIMESTAMP" />
+            <result column="status" property="status" jdbcType="VARCHAR" />
+        <collection property="orderItems" ofType="com.whitedove.pojo.TbOrderItem">
+            <id column="order_item_id" property="orderItemId" jdbcType="BIGINT" />
+            <result column="order_id" property="orderId" jdbcType="BIGINT" />
+            <result column="item_id" property="itemId" jdbcType="BIGINT" />
+            <result column="item_pic" property="itemPic" jdbcType="VARCHAR" />
+            <result column="item_name" property="itemName" jdbcType="VARCHAR" />
+            <result column="price" property="price" jdbcType="BIGINT" />
+        </collection>
+    </resultMap>
+
+    <select id="queryMaxId" resultType="Long">
+		select
+		IFNULL(max(order_id),0) orderId from tb_order
+	</select>
+
+	<select id="queryMyOrder" parameterType="com.whitedove.portal.pojo.Order" resultMap="BaseOrder">
+        SELECT
+            a.order_id,
+            a.user_id,
+            a.username,
+            a.num,
+            a.total_fee,
+            a.created,
+            a.status,
+            b.item_id,
+            b.item_pic,
+            b.item_name,
+            b.price
+        FROM
+            tb_order a,
+            tb_order_item b
+        WHERE
+            a.order_id = b.order_id
+            AND a.user_id = #{userId,jdbcType=BIGINT}
+            AND a.status = #{status,jdbcType=VARCHAR}
+	</select>
+
+    <select id="getOrderNum" parameterType="com.whitedove.portal.pojo.UserOrder" resultType="java.lang.Long">
+        SELECT
+        COUNT( order_id )
+        FROM
+        tb_order
+        WHERE user_id = #{userId,jdbcType=BIGINT}
+        <if test="status !=null">
+            and status = #{status,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+</mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.whitedove.web.mapper.OrderMapper" >
+
+    <select id="getOrderList" parameterType="com.whitedove.pojo.TbOrder" resultType="com.whitedove.pojo.TbOrder">
+        SELECT
+            order_id orderId,
+            user_id userId,
+            username username,
+            num num,
+            total_fee totalFee,
+            created created,
+            updated updated,
+            status status
+        FROM
+            tb_order
+        <where>
+            <if test="username != null">
+                username like "%"#{username}"%"
+            </if>
+        </where>
+    </select>
+
+</mapper>

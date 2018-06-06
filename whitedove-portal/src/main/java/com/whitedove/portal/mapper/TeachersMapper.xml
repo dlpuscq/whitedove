@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.whitedove.portal.mapper.TeachersMapper" >
+	
+	<select id="getTeachersList" parameterType="com.whitedove.portal.pojo.Teachers" resultType="com.whitedove.portal.pojo.Teachers">
+        SELECT
+            a.teacher_id teacherId,
+            a.teacher_name teacherName,
+            a.title_desc titleDesc,
+            b.cat_name catName,
+            b.cat_id catId,
+            a.pic pic,
+            a.created created,
+            a.updated updated
+        FROM
+            tb_teachers a
+            LEFT JOIN tb_teaching b ON a.teacher_id = b.teacher_id
+        WHERE 1=1
+        <if test="catId !=null">
+            and cat_id = #{catId,jdbcType=BIGINT}
+        </if>
+        <if test="teacherId !=null">
+            and a.teacher_id = #{teacherId,jdbcType=BIGINT}
+        </if>
+	</select>
+
+    <insert id="insert" parameterType="com.whitedove.portal.pojo.Teachers">
+        insert into tb_teachers(
+        teacher_id,
+        teacher_name,
+        title_desc,
+        pic,
+        created,
+        updated
+        )values
+        (
+        #{teacherId},
+        #{teacherName},
+        #{titleDesc},
+        #{pic},
+        #{created},
+        #{updated}
+        )
+    </insert>
+
+    <select id="queryMaxId" resultType="String">
+		select
+		IFNULL(max(teacher_id),0) teacherId from tb_teachers
+	</select>
+
+</mapper>
